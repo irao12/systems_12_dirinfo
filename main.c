@@ -23,11 +23,16 @@ int main(int argc, char**argv){
 		fgets(buffer, sizeof(buffer), stdin);
 		path = buffer;
 		d = opendir(path);
-		if (!d) printf("errno: %d: %s\n", errno, strerror(errno));
-		else found = 0;
+		if (!d) found = 0;
   	}
   }
-  d =  opendir("./");
+
+  d =  opendir(path);
+  if (!d) {
+    printf("%s", strerror(errno));
+    return 0;
+  }
+  
   struct dirent * entry;
   entry = readdir(d);
 
