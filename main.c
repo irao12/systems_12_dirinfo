@@ -5,10 +5,29 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <errno.h>
+#include <string.h>
 
-int main(){
+int main(int argc, char**argv){
   DIR * d;
-  d = opendir("./");
+  char *path;
+
+  if (argc > 1){
+	path = argv[1];
+  }
+  else {
+	int found = 1;
+	char buffer[100];
+	while (found){
+		printf("Enter a directory to scan: ");
+		fgets(buffer, sizeof(buffer), stdin);
+		path = buffer;
+		d = opendir(path);
+		if (!d) printf("errno: %d: %s\n", errno, strerror(errno));
+		else found = 0;
+  	}
+  }
+  d =  opendir("./");
   struct dirent * entry;
   entry = readdir(d);
 
