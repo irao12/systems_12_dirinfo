@@ -10,33 +10,31 @@
 
 int main(int argc, char**argv){
   DIR * d;
-  char *path;
+  char path[100];
 
   if (argc > 1){
-	path = argv[1];
+	  strncpy(path, argv[1], sizeof(argv[1])-1);
   }
   else {
-	int found = 1;
-	char buffer[100];
-	while (found){
 		printf("Enter a directory to scan: ");
-		fgets(buffer, sizeof(buffer), stdin);
-		path = buffer;
-		d = opendir(path);
-		if (!d) found = 0;
-  	}
+		fgets(path, sizeof(path), stdin);
+  }
+  int len = strlen(path);
+
+  if (path[len-1] == '\n'){
+    path[len-1] = '\0';
   }
 
   d =  opendir(path);
   if (!d) {
-    printf("%s", strerror(errno));
+    printf("%d: %s", errno, strerror(errno));
     return 0;
   }
   
   struct dirent * entry;
   entry = readdir(d);
 
-  printf("Statistics for directory: %s\n", entry->d_name);
+  printf("Statistics for directory: %s\n", path);
   unsigned int size = 0;
 
   while (entry){
