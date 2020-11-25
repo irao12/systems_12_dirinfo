@@ -13,7 +13,7 @@ int main(int argc, char**argv){
   char path[100];
 
   if (argc > 1){
-	  strncpy(path, argv[1], sizeof(argv[1])-1);
+	  strncpy(path, argv[1], sizeof(path)-1);
   }
   else {
 		printf("Enter a directory to scan: ");
@@ -30,7 +30,7 @@ int main(int argc, char**argv){
     printf("%d: %s", errno, strerror(errno));
     return 0;
   }
-  
+
   struct dirent * entry;
   entry = readdir(d);
 
@@ -41,6 +41,7 @@ int main(int argc, char**argv){
     if (entry->d_type == DT_REG){
       struct stat file;
       stat(entry->d_name, &file);
+      printf("%s", entry->d_name);
       size += file.st_size;
     }
     entry = readdir(d);
