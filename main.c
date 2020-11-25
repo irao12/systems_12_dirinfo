@@ -41,7 +41,6 @@ int main(int argc, char**argv){
     if (entry->d_type == DT_REG){
       struct stat file;
       stat(entry->d_name, &file);
-      printf("%s", entry->d_name);
       size += file.st_size;
     }
     entry = readdir(d);
