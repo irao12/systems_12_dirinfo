@@ -27,7 +27,7 @@ int main(int argc, char**argv){
 
   d =  opendir(path);
   if (!d) {
-    printf("%d: %s", errno, strerror(errno));
+    printf("%d: %s\n", errno, strerror(errno));
     return 0;
   }
 
